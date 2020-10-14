@@ -10,6 +10,11 @@ Django提供了一个 Paginator 类来帮助我们管理分页数据。：
 下面的示例表示一个典型的博客文章：
 
 ```python
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
+from hello.models import Topic
+
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
 
