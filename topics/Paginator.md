@@ -1,5 +1,8 @@
 # 文章列表页分页
 
+可以参考Django官方文档
+https://docs.djangoproject.com/zh-hans/3.1/topics/pagination/
+
 ## 修改模型文件
 
 Django提供了一个 Paginator 类来帮助我们管理分页数据。：
