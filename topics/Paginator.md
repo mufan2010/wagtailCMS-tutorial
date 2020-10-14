@@ -14,23 +14,20 @@ class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
 
     def get_context(self, request):
-        # Update context to include only published posts, ordered by reverse-chron
-        context = super().get_context(request)
-        blogpages = self.get_children().live().order_by('-first_published_at')
-
-        paginator = Paginator(blogpages, 3) # Show 3 resources per page
-
-        page = request.GET.get('page')
+        limit = 3  # 每页显示的记录数
+        context = super().get_context(request) 
+        blogpages = self.get_children().live().order_by('-first_published_at') # 获取内容
+        paginator = Paginator(blogpages, limit) # 实例化一个分页对象
+        page = request.GET.get('page') # 获取页码
+    
         try:
-            blogpages = paginator.page(page)
-        except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
-            blogpages = paginator.page(1)
-        except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
-            blogpages = paginator.page(paginator.num_pages)
+            blogpages = paginator.page(page) # 获取某页对应的记录
+        except PageNotAnInteger: # 如果页码不是个整数
+            blogpages = paginator.page(1) # 取第一页的记录
+        except EmptyPage: # 如果页码太大，没有相应的记录
+            blogpages = paginator.page(paginator.num_pages) # 取最后一页的记录
 
-        # make the variable 'resources' available on the template
+        # 让变量在模板上可用
         context['blogpages'] = blogpages
         return context
 
